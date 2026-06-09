@@ -203,18 +203,23 @@ st.markdown(f"""
 
 @st.cache_data
 def load_data():
-from pathlib import Path
-DATA_DIR = Path(__file__).parent    
+    from pathlib import Path
+    DATA_DIR = Path(__file__).parent   
+    
     players = pd.read_csv(DATA_DIR / "players.csv")
     features = pd.read_csv(DATA_DIR / "features.csv")
     trans = pd.read_csv(DATA_DIR / "transactions_sample_50k.csv", parse_dates=["timestamp"])
     summary = pd.read_csv(DATA_DIR / "summary_by_risk.csv")
     
-    with open(DATA_DIR / "metadata.json", "r", encoding="utf-8") as f:
-        meta = json.load(f)
-    
+    # 🛑 ԶԳՈՒՇԱՑՈՒՄ. Եթե metadata.json-ը չունես GitHub-ում, 
+    # կոդը սխալ չի տա, այլ կստեղծի դատարկ dictionary
+    try:
+        with open(DATA_DIR / "metadata.json", "r", encoding="utf-8") as f:
+            meta = json.load(f)
+    except FileNotFoundError:
+        meta = {} # ապահովության համար, որ ծրագիրը չկանգնի
+        
     return players, features, trans, summary, meta
-
 @st.cache_resource
 def load_models():
     players, features, trans, summary, meta = load_data()

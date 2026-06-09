@@ -32,7 +32,7 @@ def get_local_ip():
 
 st.set_page_config(page_title="GAMBLING RISK DETECTION", page_icon="🃏", layout="wide", initial_sidebar_state="expanded")
 
-card_path = Path("cart1.jpeg")
+card_path = Path("cart1.jpg")
 card_base64 = None
 if card_path.exists():
     with open(card_path, "rb") as f:
@@ -203,8 +203,8 @@ st.markdown(f"""
 
 @st.cache_data
 def load_data():
-    DATA_DIR = Path(r"C:\Users\User\Desktop\Mag1\Tntes\Final")
-    
+from pathlib import Path
+DATA_DIR = Path(__file__).parent    
     players = pd.read_csv(DATA_DIR / "players.csv")
     features = pd.read_csv(DATA_DIR / "features.csv")
     trans = pd.read_csv(DATA_DIR / "transactions_sample_50k.csv", parse_dates=["timestamp"])

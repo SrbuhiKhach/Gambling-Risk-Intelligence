@@ -1,0 +1,5 @@
+risk_level,n,bet_frequency,stake_variance,chasing_ratio,session_duration_avg,loss_streak_response,deposit_frequency,time_of_day_skew,withdrawal_ratio,self_excl_attempts,total_bet_amd
+at_risk,158,121.42,3209.71,1.91,69.81,1.75,1.78,0.28,0.0,0.12,7343273.37
+problem,68,424.02,14617.25,2.18,130.1,1.88,6.55,0.42,0.0,0.5,53366345.85
+recreational,1344,3.11,778.58,1.32,15.18,1.13,0.34,0.05,0.65,0.0,113246.79
+regular,430,26.42,1371.65,1.59,35.21,1.5,1.76,0.13,1.34,0.01,1144666.8

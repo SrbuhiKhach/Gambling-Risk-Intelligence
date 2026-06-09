@@ -1,0 +1,359 @@
+{
+  "stats": {
+    "dataset_name": "Armenian Synthetic Gambling Behavior Dataset",
+    "version": "1.0",
+    "generated_on": "2026-06-05",
+    "random_seed": 42,
+    "simulation_period": {
+      "start_date": "2025-01-01",
+      "end_date": "2025-06-29",
+      "days": 180
+    },
+    "files": {
+      "players.csv": {
+        "rows": 2000,
+        "columns": 9,
+        "size_bytes": 131939,
+        "size_human": "128.8 KB",
+        "sha256_prefix": "ec44e90dd2ce92cc",
+        "description": "One row per player. Demographics + ground-truth risk classification."
+      },
+      "features.csv": {
+        "rows": 2000,
+        "columns": 15,
+        "size_bytes": 177312,
+        "size_human": "173.2 KB",
+        "sha256_prefix": "eeed3115cbf5028e",
+        "description": "ML-ready: one row per player with 9 behavioral indicators + label."
+      },
+      "transactions.csv.gz": {
+        "rows": 1650560,
+        "columns": 7,
+        "size_bytes": 11540631,
+        "size_human": "11.01 MB (compressed)",
+        "size_uncompressed_estimate": "~108 MB",
+        "sha256_prefix": "a178168c9d7e41a6",
+        "description": "Raw transaction log (bet/deposit/withdrawal/self_exclusion_attempt)."
+      },
+      "transactions_sample_50k.csv": {
+        "rows": 50000,
+        "columns": 7,
+        "size_bytes": 3264859,
+        "size_human": "3.11 MB",
+        "sha256_prefix": "20f906de8f56a504",
+        "description": "Random 50K-row preview of transactions.csv (seed=42)."
+      }
+    },
+    "total_observations": {
+      "players_total": 2000,
+      "transactions_total": 1650560,
+      "avg_transactions_per_player": 825.3,
+      "feature_rows": 2000
+    },
+    "transaction_type_breakdown": {
+      "bet": 1634265,
+      "deposit": 11663,
+      "withdrawal": 4571,
+      "self_exclusion_attempt": 61
+    },
+    "risk_class_distribution": {
+      "by_count": {
+        "recreational": 1344,
+        "regular": 430,
+        "at_risk": 158,
+        "problem": 68
+      },
+      "by_percent": {
+        "recreational": 67.2,
+        "regular": 21.5,
+        "at_risk": 7.9,
+        "problem": 3.4
+      },
+      "positive_class_share_percent": 11.3
+    },
+    "demographic_summary": {
+      "age": {
+        "min": 21,
+        "max": 66,
+        "mean": 37.4,
+        "median": 37.0
+      },
+      "gender": {
+        "M": 1569,
+        "F": 431
+      },
+      "region": {
+        "Yerevan": 1446,
+        "Gyumri": 124,
+        "Vanadzor": 104,
+        "Ararat_region": 76,
+        "Armavir_region": 69,
+        "Kapan": 65,
+        "Other": 59,
+        "Lori_region": 57
+      },
+      "preferred_game": {
+        "sports_football": 635,
+        "casino_slots": 374,
+        "sports_basketball": 206,
+        "crash_aviator": 194,
+        "casino_live": 180,
+        "sports_other": 156,
+        "keno_lottery": 124,
+        "poker": 77,
+        "table_games": 54
+      }
+    },
+    "monetary_summary_amd": {
+      "monthly_income": {
+        "mean": 270595,
+        "median": 212348,
+        "p25": 146597,
+        "p75": 325716
+      },
+      "total_bet_per_player": {
+        "mean": 2716779,
+        "median": 163074,
+        "min": 800,
+        "max": 165473372
+      },
+      "total_deposit_per_player": {
+        "mean": 72235,
+        "median": 33000
+      }
+    }
+  },
+  "data_dictionary": {
+    "players.csv": [
+      {
+        "name": "player_id",
+        "type": "string",
+        "unique": true,
+        "example": "P00001",
+        "description": "Unique player identifier (P + 5-digit zero-padded number)"
+      },
+      {
+        "name": "age",
+        "type": "int",
+        "range": [
+          21,
+          70
+        ],
+        "example": 28,
+        "description": "Player age in years (21+ legal minimum in Armenia)"
+      },
+      {
+        "name": "gender",
+        "type": "categorical",
+        "values": [
+          "M",
+          "F"
+        ],
+        "example": "M",
+        "description": "Gender. M=Male (~78%), F=Female (~22%)"
+      },
+      {
+        "name": "region",
+        "type": "categorical",
+        "example": "Yerevan",
+        "values": [
+          "Yerevan",
+          "Gyumri",
+          "Vanadzor",
+          "Kapan",
+          "Ararat_region",
+          "Armavir_region",
+          "Lori_region",
+          "Other"
+        ],
+        "description": "Armenian region. Yerevan dominates (~72%)"
+      },
+      {
+        "name": "monthly_income_amd",
+        "type": "int",
+        "unit": "AMD",
+        "example": 250000,
+        "description": "Estimated monthly income in Armenian dram (proxy for affordability)"
+      },
+      {
+        "name": "preferred_game",
+        "type": "categorical",
+        "example": "sports_football",
+        "values": [
+          "sports_football",
+          "sports_basketball",
+          "sports_other",
+          "casino_slots",
+          "casino_live",
+          "crash_aviator",
+          "poker",
+          "keno_lottery",
+          "table_games"
+        ],
+        "description": "Primary game type played by this user"
+      },
+      {
+        "name": "account_created",
+        "type": "date (YYYY-MM-DD)",
+        "example": "2023-06-15",
+        "description": "Account registration date (30 days to 3 years before sim start)"
+      },
+      {
+        "name": "risk_level",
+        "type": "categorical (ordinal)",
+        "example": "regular",
+        "values": [
+          "recreational",
+          "regular",
+          "at_risk",
+          "problem"
+        ],
+        "description": "Ground-truth 4-class risk segmentation"
+      },
+      {
+        "name": "risk_label",
+        "type": "binary (0/1)",
+        "example": 0,
+        "description": "Binary label for classification: 1 if risk_level ∈ {at_risk, problem}"
+      }
+    ],
+    "features.csv": [
+      {
+        "name": "player_id",
+        "type": "string",
+        "description": "FK → players.csv"
+      },
+      {
+        "name": "bet_frequency",
+        "type": "float",
+        "unit": "bets/week",
+        "description": "Indicator 1: Total bets / (sim_days/7). Theoretical basis: impulsivity (Verdejo-García, 2008)"
+      },
+      {
+        "name": "stake_variance",
+        "type": "float",
+        "unit": "AMD",
+        "description": "Indicator 2: Standard deviation of bet stakes. Loss aversion proxy (Kahneman & Tversky, 1979)"
+      },
+      {
+        "name": "chasing_ratio",
+        "type": "float",
+        "unit": "ratio",
+        "description": "Indicator 3: Mean(stake_t / stake_{t-1}) when previous bet was a loss. DSM-5 chasing criterion"
+      },
+      {
+        "name": "session_duration_avg",
+        "type": "float",
+        "unit": "minutes",
+        "description": "Indicator 4: Average session length. Time/loss perception distortion"
+      },
+      {
+        "name": "loss_streak_response",
+        "type": "float",
+        "unit": "ratio",
+        "description": "Indicator 5: Stake change ratio after 3+ consecutive losses. Gambler's fallacy (Clotfelter & Cook, 1993)"
+      },
+      {
+        "name": "deposit_frequency",
+        "type": "float",
+        "unit": "deposits/month",
+        "description": "Indicator 6: Total deposits / (sim_days/30). Financial-control loss marker"
+      },
+      {
+        "name": "time_of_day_skew",
+        "type": "float",
+        "unit": "share [0,1]",
+        "description": "Indicator 7: Share of bets between 00:00-06:00. Impulse-control marker"
+      },
+      {
+        "name": "withdrawal_ratio",
+        "type": "float",
+        "unit": "ratio",
+        "description": "Indicator 8: total_withdrawals / total_deposits. Recovery / hoarding behavior"
+      },
+      {
+        "name": "self_excl_attempts",
+        "type": "int",
+        "description": "Indicator 9: Number of self-exclusion attempts. Self-awareness signal"
+      },
+      {
+        "name": "total_bet_amd",
+        "type": "int",
+        "unit": "AMD",
+        "description": "Auxiliary: total wagered in 180 days. NOT a feature — use stake_variance instead (corr=0.95)"
+      },
+      {
+        "name": "total_deposit",
+        "type": "int",
+        "unit": "AMD",
+        "description": "Auxiliary"
+      },
+      {
+        "name": "total_withdrawal",
+        "type": "int",
+        "unit": "AMD",
+        "description": "Auxiliary"
+      },
+      {
+        "name": "risk_level",
+        "type": "categorical",
+        "description": "Ground-truth 4-class label (use risk_label for binary)"
+      },
+      {
+        "name": "risk_label",
+        "type": "binary (0/1)",
+        "description": "Target variable for supervised learning"
+      }
+    ],
+    "transactions.csv.gz": [
+      {
+        "name": "player_id",
+        "type": "string",
+        "description": "FK → players.csv"
+      },
+      {
+        "name": "timestamp",
+        "type": "datetime (YYYY-MM-DD HH:MM:SS)",
+        "example": "2025-03-14 22:47:00",
+        "description": "Exact transaction time"
+      },
+      {
+        "name": "type",
+        "type": "categorical",
+        "values": [
+          "bet",
+          "deposit",
+          "withdrawal",
+          "self_exclusion_attempt"
+        ],
+        "description": "Transaction type. Most rows are bets (>95%)"
+      },
+      {
+        "name": "amount_amd",
+        "type": "int",
+        "unit": "AMD",
+        "description": "Amount in Armenian dram. 0 for self_exclusion_attempt rows"
+      },
+      {
+        "name": "game_type",
+        "type": "categorical (nullable)",
+        "description": "Filled only for type=bet; identifies which game was bet on"
+      },
+      {
+        "name": "outcome",
+        "type": "categorical (nullable)",
+        "values": [
+          "win",
+          "loss"
+        ],
+        "description": "Filled only for type=bet; result of the bet"
+      },
+      {
+        "name": "session_id",
+        "type": "string",
+        "example": "P00001_S5",
+        "description": "Groups transactions in the same gambling session (one continuous activity period)"
+      }
+    ]
+  }
+}
